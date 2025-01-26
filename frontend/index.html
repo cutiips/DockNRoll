@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page de Connexion</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+
+        .login-container {
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e1e1e1;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: #4a90e2;
+        }
+
+        button {
+            background: #4a90e2;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #357abd;
+        }
+
+        #result {
+            margin-top: 1rem;
+            padding: 10px;
+            border-radius: 6px;
+        }
+
+        .success {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+    </style>
+    <script>
+        async function checkPassword() {
+            const passwordInput = document.getElementById('password');
+            const resultDiv = document.getElementById('result');
+
+            try {
+                const response = await fetch('/api/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ password: passwordInput.value })
+                });
+
+                const result = await response.json();
+                resultDiv.innerText = result.message;
+                resultDiv.className = response.ok ? 'success' : 'error';
+
+                if (response.ok) {
+                    passwordInput.value = '';
+                }
+            } catch (error) {
+                resultDiv.innerText = "Une erreur est survenue. Veuillez réessayer.";
+                resultDiv.className = 'error';
+            }
+        }
+
+        // Permettre la soumission avec la touche Entrée
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('password').addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    checkPassword();
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Connexion</h1>
+        <div class="input-group">
+            <input
+                type="password"
+                id="password"
+                placeholder="Entrez votre mot de passe"
+                autocomplete="current-password"
+            >
+        </div>
+        <button onclick="checkPassword()">Se connecter</button>
+        <p id="result"></p>
+    </div>
+</body>
+</html>
