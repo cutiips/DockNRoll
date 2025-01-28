@@ -66,3 +66,10 @@ Sur Windows :
 ```bash
 Observateur d’événements (eventvwr.exe).
 ```
+
+## docker
+```bash
+docker-compose up -d #enable
+
+docker-compose down #disable
+```
