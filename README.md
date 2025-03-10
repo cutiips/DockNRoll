@@ -14,27 +14,29 @@ This project was created to test deployment using Docker, Nginx, and a Synology 
 ----
 # Security things
 
-## Surveiller les logs
-Nginx : /var/log/nginx/access.log et /var/log/nginx/error.log (ou dans tes conteneurs Docker : docker logs nginx_proxy).
-SSH : /var/log/auth.log (pour voir les connexions SSH).
+## Monitor logs
+Nginx : /var/log/nginx/access.log et /var/log/nginx/error.log (or in your Docker containers : docker logs nginx_proxy).
+
+SSH : /var/log/auth.log (to view SSH connections).
+
 Fail2ban : /var/log/fail2ban.log.
 
 ## UFW
 ```bash
-sudo ufw default deny incoming # interdire par défaut les connexions entrantes
-sudo ufw default allow outgoing # autoriser les connexions sortantes
+sudo ufw default deny incoming # disable incoming connections by default
+sudo ufw default allow outgoing # allow outgoing connections
 
 sudo ufw enable # enable ufw
 
 sudo ufw status verbose # status
 
 sudo ufw status
-
 ```
 
 ## fail2ban
 ```bash
 sudo fail2ban-client status
+
 sudo fail2ban-client status sshd
 ```
 
@@ -49,7 +51,7 @@ docker logs backend
 docker logs duckdns
 ```
 
-## journaux
+## journals
 Sur la VM Ubuntu :
 ```bash
 sudo tail -f /var/log/auth.log (SSH)
@@ -59,12 +61,12 @@ sudo tail -f /var/log/fail2ban.log (Fail2ban)
 
 Sur le NAS :
 ```bash
-Interface DSM > Panneau de configuration > Journal.
+DSM interface > Control Panel > Logs # Interface DSM > Panneau de configuration > Journal.
 ```
 
 Sur Windows :
 ```bash
-Observateur d’événements (eventvwr.exe).
+Event Observer (eventvwr.exe).
 ```
 
 ## docker
